@@ -1,0 +1,248 @@
+/* Root theme colors */
+:root {
+  --bg-color-day: #f0f4f8;
+  --bg-color-night: #1e293b;
+  --text-color-day: #222831;
+  --text-color-night: #e0e6f2;
+  --cell-bg: #a5d8ff;
+  --cell-bg-revealed: #b8e0ff;
+  --cell-flag: #ff6f91;
+  --bomb-color: #ff4757;
+  --border-color: #74c0fc;
+
+  --animation-duration: 0.3s;
+  --animation-ease: ease-out;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-color-day);
+  color: var(--text-color-day);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 2rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.app-container {
+  width: 360px;
+  max-width: 95vw;
+  user-select: none;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.7rem;
+  align-items: center;
+  margin-top: 0.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.level-select label {
+  margin-right: 0.4rem;
+  user-select: text;
+}
+
+select {
+  font-size: 0.9rem;
+  border-radius: 5px;
+  padding: 0.3rem 0.6rem;
+  border: 2px solid var(--border-color);
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+select:hover, select:focus {
+  border-color: var(--cell-flag);
+  outline: none;
+}
+
+button {
+  background-color: var(--cell-flag);
+  border: none;
+  color: white;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+  user-select: none;
+}
+
+button:hover, button:focus {
+  background-color: #ff4b6e;
+  outline: none;
+}
+
+.info {
+  flex-grow: 1;
+  text-align: center;
+  min-width: 100px;
+  user-select: none;
+}
+
+.board {
+  display: grid;
+  grid-gap: 6px;
+  background-color: var(--cell-bg);
+  padding: 8px;
+  border-radius: 10px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  outline: none;
+  margin-top: 1rem;
+  user-select: none;
+}
+
+.cell {
+  aspect-ratio: 1 / 1;
+  background-color: var(--cell-bg);
+  border-radius: 6px;
+  border: 2px solid var(--border-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+  font-size: 1.3rem;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color var(--animation-duration) var(--animation-ease),
+    color var(--animation-duration) var(--animation-ease);
+  color: transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.cell.revealed {
+  background-color: var(--cell-bg-revealed);
+  color: var(--text-color-day);
+  cursor: default;
+  border-color: #3ca9ee;
+  animation: fadeIn var(--animation-duration) var(--animation-ease);
+}
+
+.cell.bomb {
+  color: var(--bomb-color);
+}
+
+.cell.flagged {
+  background-color: var(--cell-flag);
+  color: white;
+  animation: popFlag 0.3s ease forwards;
+}
+
+.cell.disabled {
+  cursor: default;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+body.night {
+  background-color: var(--bg-color-night);
+  color: var(--text-color-night);
+}
+
+body.night .board {
+  background-color: #283e4a;
+}
+
+body.night .cell {
+  background-color: #3a536b;
+  border-color: #5588bb;
+  color: transparent;
+}
+
+body.night .cell.revealed {
+  background-color: #557a9f;
+  color: var(--text-color-night);
+}
+
+body.night .cell.flagged {
+  background-color: #ff758f;
+  color: white;
+}
+
+body.night button {
+  background-color: #ff758f;
+}
+
+body.night button:hover {
+  background-color: #ff4b6e;
+}
+
+/* Animations */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.85); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes popFlag {
+  0% { transform: scale(0.6); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* Overlay Styles */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0,0,0,0.5);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.overlay.hidden {
+  display: none;
+}
+
+.overlay-content {
+  background-color: var(--cell-bg-revealed);
+  padding: 2rem 3rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  text-align: center;
+  color: var(--text-color-day);
+}
+
+body.night .overlay-content {
+  background-color: #557a9f;
+  color: var(--text-color-night);
+}
+
+#overlay-message {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Responsive grid adjustments by difficulty */
+
+.board.beginner {
+  grid-template-columns: repeat(9, 1fr);
+  grid-template-rows: repeat(9, 1fr);
+}
+
+.board.intermediate {
+  grid-template-columns: repeat(16, 1fr);
+  grid-template-rows: repeat(16, 1fr);
+}
+
+.board.expert {
+  grid-template-columns: repeat(24, 1fr);
+  grid-template-rows: repeat(24, 1fr);
+}

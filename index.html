@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Minesweeper Enhanced</title>
+  <link rel="stylesheet" href="mine.css" />
+</head>
+<body>
+  <div class="app-container">
+    <header>
+      <h1>Minesweeper</h1>
+      <div class="controls">
+        <div class="level-select">
+          <label for="difficulty">Difficulty:</label>
+          <select id="difficulty">
+            <option value="beginner">Beginner (9x9, 10 bombs)</option>
+            <option value="intermediate">Intermediate (16x16, 40 bombs)</option>
+            <option value="expert">Expert (24x24, 99 bombs)</option>
+          </select>
+        </div>
+        <button id="restart-btn" title="Restart Game">Restart</button>
+        <div class="info">
+          <span id="bomb-count">Bombs: 10</span>
+          <span id="timer">Time: 0s</span>
+        </div>
+        <button id="theme-toggle" title="Toggle Theme">Toggle Theme</button>
+      </div>
+    </header>
+
+    <main>
+      <div id="game-board" class="board" tabindex="0" aria-label="Minesweeper game board"></div>
+    </main>
+  </div>
+
+  <!-- Overlay for Win/Lose -->
+  <div id="game-overlay" class="overlay hidden" role="dialog" aria-modal="true" aria-live="polite">
+    <div class="overlay-content">
+      <h2 id="overlay-message"></h2>
+      <button id="overlay-restart-btn">Play Again</button>
+    </div>
+  </div>
+
+  <audio id="sound-click" src="click.mp3" preload="auto"></audio>
+  <audio id="sound-flag" src="flag.mp3" preload="auto"></audio>
+  <audio id="sound-bomb" src="bomb.mp3" preload="auto"></audio>
+  <audio id="sound-win" src="win.mp3" preload="auto"></audio>
+
+  <script src="mine.js"></script>
+</body>
+</html>
